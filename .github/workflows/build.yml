@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      CI: true  # 启用持续集成模式（大多数工具默认支持）
+      DEBIAN_FRONTEND: noninteractive  # 适用于 apt-get（Linux）
+      ACCEPT_EULA: Y  # 接受 Microsoft 软件许可协议
+      npm_config_yes: true  # npm 命令默认回答 "yes"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Eslint
+        if: runner.os == 'Windows'
+        run: npm run lint
+
+      - name: Build app
+        run: npm run electron:build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-dist_electron
+          path: dist_electron/
