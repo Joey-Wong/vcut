@@ -15,7 +15,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 
 const afterWinCreated = () => {
   // 创建系统托盘图标
-  const iconPath = `${getResourcesDir()}/k_tools.png`;
+  const iconPath = `${getResourcesDir()}/vcut.png`;
   const tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -31,7 +31,7 @@ const afterWinCreated = () => {
       },
     },
   ]);
-  tray.setToolTip("k_tools");
+  tray.setToolTip("vcut");
   tray.setContextMenu(contextMenu);
   tray.on("click", () => {
     win.isVisible() ? win.hide() : win.show();

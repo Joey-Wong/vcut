@@ -1,9 +1,6 @@
 import { ipcMain } from "electron";
 import { to } from "@/utils";
 import { getFiles, getResourcesDir, AppID, getFileMD5, getFileSize } from "@/main-render/utils";
-import BatchDelSameFile from "@/main-render/batchDelSameFile";
-import BatchRenameFiles from "@/main-render/batchRenameFiles";
-import BatchMoveFiles from "@/main-render/batchMoveFiles";
 import path from "path";
 import { dialog } from "electron";
 const fnMap = {
@@ -28,15 +25,6 @@ const fnMap = {
   },
   GetFileSize: async (params) => {
     return await getFileSize(params);
-  },
-  BatchDelSameFile: async (params) => {
-    return await BatchDelSameFile(params);
-  },
-  BatchRenameFiles: async (params) => {
-    return await BatchRenameFiles(params);
-  },
-  BatchMoveFiles: async (params) => {
-    return await BatchMoveFiles(params);
   },
 };
 const keys = Object.keys(fnMap);

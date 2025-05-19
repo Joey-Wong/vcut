@@ -1,0 +1,11 @@
+[2025-05-20 00:09:54][beforeAppStart]
+[2025-05-20 00:27:35][beforeAppStart]
+[2025-05-20 00:27:36]Failed to load image from path 'D:/workspace/v-cut/resources/vcut.png'
+[2025-05-20 00:30:46][beforeAppStart]
+[2025-05-20 00:32:41][beforeAppStart]
+[2025-05-20 00:33:53][beforeAppStart]
+[2025-05-20 00:34:16]Failed to fetch extension, trying 4 more times
+[2025-05-20 00:34:16]Failed to fetch extension, trying 3 more times
+[2025-05-20 00:34:37]Failed to fetch extension, trying 2 more times
+[2025-05-20 00:34:59]Failed to fetch extension, trying 1 more times
+[2025-05-20 00:34:59]Failed to fetch extension, trying 0 more times

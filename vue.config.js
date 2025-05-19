@@ -11,8 +11,8 @@ module.exports = defineConfig({
       customFileProtocol: "./",
       preload: "src/preload.js",
       builderOptions: {
-        appId: "com.k_tools",
-        productName: "k_tools", //项目名，也是生成的安装文件名，即aDemo.exe
+        appId: "com.vcut",
+        productName: "vcut", //项目名，也是生成的安装文件名，即aDemo.exe
         artifactName: "${productName}-${platform}-${arch}-${version}.${ext}",
         copyright: "Copyright © xx", //版权信息
         directories: {
@@ -20,7 +20,7 @@ module.exports = defineConfig({
         },
         win: {
           //win相关配置
-          icon: "./k_tools.ico", //图标，当前图标在根目录下，注意这里有两个坑
+          icon: "./vcut.ico", //图标，当前图标在根目录下，注意这里有两个坑
           target: [
             {
               target: "nsis", //利用nsis制作安装程序
@@ -41,12 +41,12 @@ module.exports = defineConfig({
           perMachine: false,
           allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
           allowToChangeInstallationDirectory: true, // 允许修改安装目录
-          installerIcon: "./k_tools.ico", // 安装图标
-          uninstallerIcon: "./k_tools.ico", //卸载图标
-          installerHeaderIcon: "./k_tools.ico", // 安装时头部图标
+          installerIcon: "./vcut.ico", // 安装图标
+          uninstallerIcon: "./vcut.ico", //卸载图标
+          installerHeaderIcon: "./vcut.ico", // 安装时头部图标
           createDesktopShortcut: true, // 创建桌面图标
           createStartMenuShortcut: true, // 创建开始菜单图标
-          shortcutName: "k_tools", // 图标名称
+          shortcutName: "vcut", // 图标名称
         },
         extraResources: {
           // 拷贝静态文件到指定位置,否则打包之后出现找不到资源的问题.将整个resources目录拷贝到发布的根目录下
@@ -55,7 +55,7 @@ module.exports = defineConfig({
           to: "./",
         },
         mac: {
-          icon: "./k_tools.png",
+          icon: "./vcut.png",
           identity: null,
         },
         publish: [

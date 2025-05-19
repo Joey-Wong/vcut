@@ -116,25 +116,25 @@ export default {
       },
       ListMenuItem: [
         {
-          title: "计算文件MD5",
-          key: "getFileMD5",
+          title: "视频加水印",
+          key: "mvOverlay",
         },
         {
-          title: "文件查重与删除",
-          key: "delSameFiles",
+          title: "视频拼接",
+          key: "mvMerge",
         },
         {
-          title: "批量移动文件",
-          key: "moveFiles",
+          title: "视频变速",
+          key: "mvSpeed",
         },
         {
-          title: "批量重命名文件",
-          key: "batchRenameFiles",
+          title: "视频压缩",
+          key: "mvCompress",
         },
       ],
       selectedMenuItem: {
-        title: "计算文件MD5",
-        key: "getFileMD5",
+        title: "视频加水印",
+        key: "mvOverlay",
       },
     };
   },

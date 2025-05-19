@@ -2,28 +2,28 @@ const routes = [
   {
     path: "/",
     redirect: {
-      name: "getFileMD5",
+      name: "mvOverlay",
     },
   },
   {
-    path: "/getFileMD5",
-    name: "getFileMD5",
-    component: () => import("@/views/GetFileMD5"),
+    path: "/mvOverlay",
+    name: "mvOverlay",
+    component: () => import("@/views/MvOverlay"),
   },
   {
-    path: "/batchRenameFiles",
-    name: "batchRenameFiles",
-    component: () => import("@/views/BatchRenameFiles"),
+    path: "/mvMerge",
+    name: "mvMerge",
+    component: () => import("@/views/MvMerge"),
   },
   {
-    path: "/delSameFiles",
-    name: "delSameFiles",
-    component: () => import("@/views/DelSameFiles"),
+    path: "/mvSpeed",
+    name: "mvSpeed",
+    component: () => import("@/views/MvSpeed"),
   },
   {
-    path: "/moveFiles",
-    name: "moveFiles",
-    component: () => import("@/views/MoveFiles"),
+    path: "/mvCompress",
+    name: "mvCompress",
+    component: () => import("@/views/MvCompress"),
   },
 ];
 
