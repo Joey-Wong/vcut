@@ -71,5 +71,8 @@
     "name": "xx",
     "email": "xx@qq.com",
     "url": "https://abc.cn"
+  },
+  "dependencies": {
+    "image-size": "^0.9.7"
   }
 }

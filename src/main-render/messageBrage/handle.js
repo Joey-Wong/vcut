@@ -3,6 +3,7 @@ import { to } from "@/utils";
 import { getFiles, getResourcesDir, AppID, getFileMD5, getFileSize } from "@/main-render/utils";
 import path from "path";
 import { dialog } from "electron";
+import MvOverlay from "../mvOverlay.js";
 const fnMap = {
   GetFiles: getFiles,
   OpenDevTools: async () => {
@@ -25,6 +26,9 @@ const fnMap = {
   },
   GetFileSize: async (params) => {
     return await getFileSize(params);
+  },
+  MvOverlay: async (params) => {
+    return await MvOverlay(params);
   },
 };
 const keys = Object.keys(fnMap);

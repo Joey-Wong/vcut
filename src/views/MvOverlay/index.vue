@@ -1,7 +1,7 @@
 <template>
   <div ref="wrap" class="wrap">
     <h2 ref="title" class="title">视频加水印</h2>
-    <div :style="{ height: calcHeight }" class="content-wrap">
+    <div class="content-wrap">
       <BtnLine
         title="源文件夹:"
         :disabled="progressing"
@@ -91,8 +91,8 @@
         <p class="tip">{{ exts.join("/") }}</p>
       </LineWrap>
       <n-button :loading="progressing" :disabled="progressing" @click="progress()" type="primary">开始处理</n-button>
-      <Log :show="progressing || Done" ref="log-conetnt" height="400px" />
     </div>
+    <Log :show="progressing || Done" ref="log-conetnt" />
   </div>
 </template>
 
@@ -123,7 +123,6 @@ export default {
   },
   data() {
     return {
-      calcHeight: "80%",
       exts: ["mp4", "mov", "wmv", "avi", "flv", "jpg", "jpeg", "png", "gif"],
       // 水印位置
       positionList: [
@@ -171,11 +170,22 @@ export default {
       cusMode: false,
     };
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners("MvOverlay");
+  },
   mounted() {
-    const allHeight = this.$refs.wrap.offsetHeight;
-    const titleHeight = this.$refs.title.offsetHeight;
-    this.calcHeight = `${allHeight - titleHeight}px`;
-    ipcRenderer.on("MvOverlayRes", this.mvOverlayRes);
+    ipcRenderer.on("MvOverlay", (event, rsp) => {
+      const res = JSON.parse(rsp);
+      const { Code, Done, Log, Msg } = res;
+      this.$refs["log-conetnt"].addLog({
+        type: Code !== 0 ? "error" : "",
+        log: Code !== 0 ? Msg : Log,
+      });
+      if (Done) {
+        this.Done = true;
+        this.progressing = false;
+      }
+    });
   },
   methods: {
     setIsCusMode(v) {
@@ -247,18 +257,8 @@ export default {
         sourceFilePath: this.sourceFilePath,
         ...cusModeParams,
       };
-      ipcRenderer.send("MvOverlay", JSON.stringify(params));
-    },
-    mvOverlayRes(event, rsp) {
-      const res = JSON.parse(rsp);
-      const {
-        RspHeader: { IsSuccess, Msg, Done },
-      } = res;
-      this.$refs["log-conetnt"].addLog({ type: !IsSuccess ? "error" : "", log: Msg });
-      if (Done) {
-        this.Done = true;
-        this.progressing = false;
-      }
+      console.log("params", params);
+      ipcRenderer.invoke("MvOverlay", params);
     },
   },
 };
@@ -268,8 +268,19 @@ export default {
 .wrap {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
+
+.content-wrap {
+  width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding: 10px;
+}
+
 .line-wrap {
   display: inline-flex;
   width: 30px;
@@ -280,34 +291,6 @@ export default {
     width: 16px;
     height: 1px;
     background: #999;
-  }
-}
-.content-wrap {
-  width: 100%;
-  overflow-y: auto;
-  margin-top: 10px;
-  border-top: 1px solid #eee;
-  padding: 10px;
-  padding-bottom: 40px;
-  /* WebKit 内核浏览器滚动条样式设置 */
-  &::-webkit-scrollbar {
-    width: 5px; /* 设置滚动条宽度为 5 像素，可按需修改 */
-  }
-
-  /* 滚动条轨道样式 */
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  /* 滚动条滑块样式 */
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 5px;
-  }
-
-  /* 鼠标悬停在滑块上时的样式 */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
   }
 }
 .margin-left-10 {
