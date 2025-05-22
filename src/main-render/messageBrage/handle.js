@@ -5,6 +5,7 @@ import path from "path";
 import { dialog } from "electron";
 import MvOverlay from "../mvOverlay.js";
 import Compress from "../compress.js";
+import MvMerge from "../mvMerge.js";
 const fnMap = {
   GetFiles: getFiles,
   OpenDevTools: async () => {
@@ -33,6 +34,9 @@ const fnMap = {
   },
   Compress: async (params) => {
     return await Compress(params);
+  },
+  MvMerge: async (params) => {
+    return await MvMerge(params);
   },
 };
 const keys = Object.keys(fnMap);

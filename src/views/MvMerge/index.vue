@@ -19,7 +19,7 @@
       <LineWrap title="支持格式:">
         <p class="tip">{{ exts.join("/") }}</p>
       </LineWrap>
-      <n-button :loading="progressing" :disabled="progressing" @click="progress()" type="primary">开始压缩</n-button>
+      <n-button :loading="progressing" :disabled="progressing" @click="progress()" type="primary">开始合并</n-button>
     </div>
     <Log :show="progressing || Done" ref="log-conetnt" />
   </div>
@@ -60,6 +60,9 @@ export default {
       exts: [],
     };
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners("MvMerge");
+  },
   mounted() {
     const keys = Object.keys(FileTypes);
     const exts = [];
@@ -67,7 +70,18 @@ export default {
       exts.push(...FileTypes[v].exts);
     });
     this.exts = exts;
-    ipcRenderer.on("MvMergeRes", this.mvMergeRes);
+    ipcRenderer.on("MvMerge", (event, rsp) => {
+      const res = JSON.parse(rsp);
+      const { Code, Done, Log, Msg } = res;
+      this.$refs["log-conetnt"].addLog({
+        type: Code !== 0 ? "error" : "",
+        log: Code !== 0 ? Msg : Log,
+      });
+      if (Done) {
+        this.Done = true;
+        this.progressing = false;
+      }
+    });
   },
   methods: {
     progress() {
@@ -87,18 +101,7 @@ export default {
         targetDir: this.targetDir,
         sourceDir: this.sourceDir, // 选择的文件路径
       };
-      ipcRenderer.send("MvMerge", JSON.stringify(params));
-    },
-    mvMergeRes(event, rsp) {
-      const res = JSON.parse(rsp);
-      const {
-        RspHeader: { IsSuccess, Msg, Done },
-      } = res;
-      this.$refs["log-conetnt"].addLog({ type: !IsSuccess ? "error" : "", log: Msg });
-      if (Done) {
-        this.Done = true;
-        this.progressing = false;
-      }
+      ipcRenderer.invoke("MvMerge", params);
     },
   },
 };

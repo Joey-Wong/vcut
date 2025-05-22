@@ -37,7 +37,7 @@
               <n-radio v-for="v in positionList" :key="v.v" :value="v.v">
                 {{ v.text }}
               </n-radio>
-            </n-radio-group>
+            </n-radio-group>  
           </n-space>
         </LineWrap>
         <LineWrap title="水印大小:" noMarginBottom>
