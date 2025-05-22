@@ -13,11 +13,8 @@ const basePath = path.resolve(
     : process.resourcesPath + "/bin/ffmpeg"
 );
 
-console.log(`basePath`);
-console.log(basePath);
 const name = "ffmpeg";
 const ffmpegBinPath = path.resolve(basePath, platform === "win32" ? `${name}.exe` : name).replace(/\\/g, "/");
-console.log(ffmpegBinPath);
 
 let ffmpeg = null;
 const ffmpegCmd = (args, stdoutCb, stderrCb) => {

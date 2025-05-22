@@ -97,6 +97,9 @@ export default {
       cryptoType: "",
     };
   },
+  beforeUnmount() {
+    ipcRenderer.removeAllListeners("Compress");
+  },
   mounted() {
     const keys = Object.keys(this.FileTypes);
     const exts = [];
@@ -104,7 +107,18 @@ export default {
       exts.push(...this.FileTypes[v].exts);
     });
     this.exts = exts;
-    ipcRenderer.on("Compress", this.compressRes);
+    ipcRenderer.on("Compress", (event, rsp) => {
+      const res = JSON.parse(rsp);
+      const { Code, Done, Log, Msg } = res;
+      this.$refs["log-conetnt"].addLog({
+        type: Code !== 0 ? "error" : "",
+        log: Code !== 0 ? Msg : Log,
+      });
+      if (Done) {
+        this.Done = true;
+        this.progressing = false;
+      }
+    });
   },
   methods: {
     async selectFile() {
@@ -143,18 +157,8 @@ export default {
         sourceFileName: this.sourceFileName,
         fileType: this.fileType,
       };
-      ipcRenderer.send("Compress", JSON.stringify(params));
-    },
-    compressRes(event, rsp) {
-      const res = JSON.parse(rsp);
-      const {
-        RspHeader: { IsSuccess, Msg, Done },
-      } = res;
-      this.$refs["log-conetnt"].addLog({ type: !IsSuccess ? "error" : "", log: Msg });
-      if (Done) {
-        this.Done = true;
-        this.progressing = false;
-      }
+      console.log("params", params);
+      ipcRenderer.invoke("Compress", params);
     },
   },
 };

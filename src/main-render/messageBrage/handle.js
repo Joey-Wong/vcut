@@ -4,6 +4,7 @@ import { getFiles, getResourcesDir, AppID, getFileMD5, getFileSize } from "@/mai
 import path from "path";
 import { dialog } from "electron";
 import MvOverlay from "../mvOverlay.js";
+import Compress from "../compress.js";
 const fnMap = {
   GetFiles: getFiles,
   OpenDevTools: async () => {
@@ -29,6 +30,9 @@ const fnMap = {
   },
   MvOverlay: async (params) => {
     return await MvOverlay(params);
+  },
+  Compress: async (params) => {
+    return await Compress(params);
   },
 };
 const keys = Object.keys(fnMap);

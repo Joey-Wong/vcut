@@ -18,12 +18,9 @@ const mvOverlay = async ({
   durationEnd,
   opacity,
 }) => {
-  console.log(`---111---`);
   const now = Date.now();
   const videoInfoOverlay = [];
   const argsOverlay = [`-i`, sourceFilePath];
-  console.log(`-------------`);
-  console.log(`ffmpeg ${argsOverlay.join(" ")}`);
   const reg = {
     Duration: /Duration: ([\s\S]*?),/,
     Vs: /\d+x\d+ \[SAR/,
@@ -77,8 +74,6 @@ const mvOverlay = async ({
     );
   }
 
-  console.log(`-----videoInfoOverlay-----`);
-  console.log(videoInfoOverlay);
   // 循环叠加
   const filesList = getFiles(sourceDir, false);
   const len = filesList.length;
